@@ -34,4 +34,4 @@ class FoodmanduScraper:
 
 s = FoodmanduScraper()
 s.scrape_menu(1027)
-s.scrape_menu(1028)
+
