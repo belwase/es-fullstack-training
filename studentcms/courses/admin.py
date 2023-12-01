@@ -4,13 +4,17 @@ from courses.models import Course, StudentCourse
 
 
 class CourseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["id", "name", "instructor", "duration", "start_date", "custom_field1"]
+    exclude = ["name"]
+
+    def custom_field1(self, obj):
+    	return f"Field: {obj.id}"
 
 admin.site.register(Course, CourseAdmin)
 
 
-
 class StudentCourseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'student', 'course', 'registration_date']
+    fields = ["registration_date"]
 
 admin.site.register(StudentCourse, StudentCourseAdmin)
