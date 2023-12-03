@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block heading %}
+<h1>Courses</h1>
+{% endblock %}
+
+{% block content %}
+  <main>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Instructor</th>
+                <th>Start Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.id }}</td>
+                    <td>{{ course.name }}</td>
+                    <td>{{ course.instructor }}</td>
+                    <td>{{ course.start_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+  </main>
+
+{% endblock %}

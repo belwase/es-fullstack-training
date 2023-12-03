@@ -18,8 +18,13 @@ from django.contrib import admin
 from django.urls import path
 
 from main.views import HomeView
+from accounts.views import StudentView, StudentAddView
+from courses.views import CourseView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', HomeView)
+    path('', HomeView, name='home'),
+    path('student/', StudentView, name='student-list'),
+    path('student-add/', StudentAddView, name='student-add'),
+    path('course/', CourseView, name='course-list')
 ]

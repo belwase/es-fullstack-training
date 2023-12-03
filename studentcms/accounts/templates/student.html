@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block heading %}
+<h1>Students</h1>
+{% endblock %}
+
+{% block content %}
+<p style="color:red;">{{message}}</p>
+  <main>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+              {% if student.last_name == 'adhikari' %}
+                <tr  style="background-color: green;">
+              
+              {% else %}
+                <tr>
+              {% endif %}
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.first_name }}</td>
+                    <td>{{ student.last_name }}</td>
+                    <td>{{ student.email }}</td>
+                </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="{% url 'student-add' %}" method="post">
+      {% csrf_token %}
+      <label for="first_name">First Name:</label>
+      <input type="text" id="first_name" name="first_name" required>
+
+      <label for="last_name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+
+      <label for="phone">Phone:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <button type="submit">Add Student</button>
+    </form>
+    
+  </main>
+
+{% endblock content %}
