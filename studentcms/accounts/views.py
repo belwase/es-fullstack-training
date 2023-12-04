@@ -15,7 +15,7 @@ def StudentView(request):
 	return render(request, "student.html", output)
 
 def StudentAddView(request):
-	output = {"message": ""}
+	output = {"messages": []}
 
 	method = request.method
 	if method == 'POST':
@@ -28,13 +28,24 @@ def StudentAddView(request):
 			'password' :data['password']
 		}
 		
-		profile = Profile.objects.filter(email=profile_data['email'])
-		if profile:
-			output['message'] = f"Student with email : {profile_data['email']} already exists."
-		else:
-			p = Profile(**profile_data)
-			p.save()
-			output['message'] = f"{profile_data['first_name']} Added Successfully !"
+		if len(profile_data['first_name']) < 5:
+			output['messages'].append("first_name should be at least 5 characters")
+
+		if len(profile_data['last_name']) < 5:
+			output['messages'].append("last_name should be at least 5 characters")
+
+		if not profile_data['phone'].isdigit():
+			output['messages'].append("Invalid phone number")
+
+		if not output['messages']:
+
+			profile = Profile.objects.filter(email=profile_data['email'])
+			if profile:
+				output['messages'].append(f"Student with email : {profile_data['email']} already exists.")
+			else:
+				p = Profile(**profile_data)
+				p.save()
+				output['messages'].append(f"{profile_data['first_name']} Added Successfully !")
 
 	students = Profile.objects.all()
 	output['students'] = students
