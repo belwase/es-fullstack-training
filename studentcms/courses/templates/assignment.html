@@ -29,7 +29,7 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="studentDropdown" class="form-label">Select Student</label>
-                    <select class="form-select" id="studentDropdown" name="student">
+                    <select class="form-select" id="student_id" name="student">
                         {% for student in students %}
                             <option value="{{ student.id }}">{{ student.first_name }}</option>
                         {% endfor %}
@@ -37,7 +37,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="courseDropdown" class="form-label">Select Course</label>
-                    <select class="form-select" id="courseDropdown" name="course">
+                    <select class="form-select" id="course_id" name="course">
                         {% for course in courses %}
                             <option value="{{ course.id }}">{{ course.name }}</option>
                         {% endfor %}
