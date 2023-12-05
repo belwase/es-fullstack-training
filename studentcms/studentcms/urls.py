@@ -28,6 +28,6 @@ urlpatterns = [
 
     # For APIs
     path('api/student/', include('accounts.api_urls')),
-    #path('api/course/', include('courses.api_urls')),
+    path('api/course/', include('courses.api_urls')),
     
 ]
