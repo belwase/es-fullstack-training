@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from main.views import HomeView
+from main.views import HomeView, TokenView
 
 
 urlpatterns = [
@@ -29,5 +29,7 @@ urlpatterns = [
     # For APIs
     path('api/student/', include('accounts.api_urls')),
     path('api/course/', include('courses.api_urls')),
+
+    path('api/token/', TokenView)
     
 ]
