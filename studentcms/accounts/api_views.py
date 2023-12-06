@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+
 from accounts.models import Profile
+from main.helper.token import decode
 
 import json
 
@@ -8,6 +10,13 @@ import json
 @csrf_exempt
 def StudentAPIView(request, id=None):
 	output = {"data": None, "messages":[]}
+	token = request.META['HTTP_AUTHORIZATION']
+	decoded = decode(token)
+	if decoded == False:
+		output['messages'] = 'Unaurhotized'
+		return JsonResponse(output)
+
+	
 	method = request.method
 
 	if method == "GET":
