@@ -38,10 +38,10 @@ def StudentAPIView(request, id=None):
 		}
 		
 		if len(profile_data['first_name']) < 3:
-			output['messages'].append("first_name should be at least 5 characters")
+			output['messages'].append("first_name should be at least 3 characters")
 
 		if len(profile_data['last_name']) < 3:
-			output['messages'].append("last_name should be at least 5 characters")
+			output['messages'].append("last_name should be at least 3 characters")
 
 		if not profile_data['phone'].isdigit():
 			output['messages'].append("Invalid phone number")
