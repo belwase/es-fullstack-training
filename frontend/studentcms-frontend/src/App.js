@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import HomePage from './HomePage';
-// import StudentsPage from './Students';
-// import CoursesPage from './Courses';
+import StudentsPage from './Students';
+import CoursesPage from './Courses';
 import './App.css';
 
 function App() {
