@@ -6,13 +6,13 @@ import API_URL from './config';
 
 const StudentsPage = () => {
   
-  const [students, setStudents] = useState(0);
+  const [students, setStudents] = useState([]);
   
   useEffect(() => {
-    
+    console.log("initialized.")
       const fetchData = async () => {
         try {
-          const response = await axios.get(`${API_URL}/student`);
+          const response = await axios.get(`${API_URL}/student/`);
           console.log(response.data.data)
           setStudents(response.data.data);
           
@@ -37,16 +37,16 @@ const StudentsPage = () => {
             <th>Age</th>
           </tr>
         </thead>
-       {/* <tbody>
+        <tbody>
           {students.map(student => (
             <tr key={student.id} style={{ 
               backgroundColor: student.age > 20 ? 'green' : 'inherit' }}>
               <td>{student.id}</td>
-              <td>{student.name}</td>
+              <td>{student.first_name}</td>
               <td>{student.age}</td>
             </tr>
           ))}
-        </tbody>*/}
+        </tbody>
       </table>
     </div>
   );
