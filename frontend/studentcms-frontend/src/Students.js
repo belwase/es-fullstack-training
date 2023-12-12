@@ -7,6 +7,13 @@ import API_URL from './config';
 const StudentsPage = () => {
   
   const [students, setStudents] = useState([]);
+  var [newStudent, setNewStudent] = useState({
+              first_name:'',
+              last_name: '',
+              email: '',
+              password: '',
+              phone: ''
+            })
   
   useEffect(() => {
     console.log("initialized.")
@@ -25,6 +32,18 @@ const StudentsPage = () => {
 
 
   }, []);
+
+  const handleAddStudent = (e) => {
+
+  }
+
+  const handleInputChange = (e) => {
+    var field_name = e.target.name;
+    var field_value = e.target.value;
+    console.log(field_name, field_value);
+    
+
+  }
 
   return (
     <div style={pageStyle}>
@@ -48,6 +67,29 @@ const StudentsPage = () => {
           ))}
         </tbody>
       </table>
+      <form onSubmit={handleAddStudent}>
+        <label>
+          First Name:
+          <input type="text" name="first_name" value={newStudent.first_name} onChange={handleInputChange} required />
+        </label>
+        <label>
+          Last Name:
+          <input type="text" name="last_name" value={newStudent.last_name} onChange={handleInputChange} required />
+        </label>
+        <label>
+          Email:
+          <input type="text" name="email" value={newStudent.email} onChange={handleInputChange} required />
+        </label>
+        <label>
+          Password:
+          <input type="text" name="password" value={newStudent.password} onChange={handleInputChange} required />
+        </label>
+        <label>
+          Phone:
+          <input type="number" name="phone" value={newStudent.phone} onChange={handleInputChange} required />
+        </label>
+        <button type="submit">Add Student</button>
+      </form>
     </div>
   );
 }
