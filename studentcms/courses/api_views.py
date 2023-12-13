@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from courses.models import Course, StudentCourse
 import json
+from datetime import datetime
 
 
 @csrf_exempt
@@ -79,20 +80,48 @@ def CourseAPIView(request, id=None):
 
 	return JsonResponse(output)
 
+@csrf_exempt
 def CourseStudentAPIView(request):
 	output = {"data": None}
 	method = request.method
 
 	if method == "GET":
 		student_courses = list(StudentCourse.objects.filter(
-			).values('id','student__first_name', 'course__name'))
-		
+			).values(
+				'id',
+				'student_id',
+				'course_id',
+				'student__first_name',
+				'course__name'
+				)
+			)
 		scs = []
 		for sc in student_courses:
 			scs.append({
+					'student_id': sc['student_id'],
 					'student_name': sc['student__first_name'],
+					'course_id': sc['course_id'],
 					'course_name': sc['course__name']
 				})
 		output['data'] = scs
+
+	elif method == 'POST':
+		print(request.body)
+		data = json.loads(request.body)
+		print(data)
+		check = StudentCourse.objects.filter(
+			course_id=data['course_id'],
+			student_id=data['student_id']
+			)
+		if check:
+			output['message'] = f'Student with id {data["student_id"]} already enrolled.'
+		else:
+			sc = StudentCourse(
+					student_id=data['student_id'],
+					course_id=data['course_id'],
+					registration_date=datetime.now()
+					)
+			sc.save()
+			output['message'] = 'Student Enrolled'
 
 	return JsonResponse(output)

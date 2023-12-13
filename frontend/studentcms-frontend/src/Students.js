@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import API_URL from './config';
+import {API_URL} from './config';
 
 
 const StudentsPage = () => {
@@ -100,7 +100,7 @@ const StudentsPage = () => {
     <ToastContainer />
     <div style={styles.page}>
       <h2 style={styles.heading}>Students Page</h2>
-      <table style={styles.table}>
+      <table className="table" style={styles.table}>
         <thead>
           <tr>
             <th>ID</th>
