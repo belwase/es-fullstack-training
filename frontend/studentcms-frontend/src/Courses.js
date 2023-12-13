@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
 import { API_URL,TOKEN, HEADERS } from './config';
 import { Modal, Button, Table, Form } from 'react-bootstrap';
 
@@ -50,7 +53,10 @@ const AssignmentPage = () => {
     
       var response = await axios.post(`${API_URL}/course/students`, { student_id: selectedStudent, course_id: selectedCourse }, { HEADERS });
       console.log(response.data)
-      alert(response.data.message)
+      //alert(response.data.message)
+      toast.info(response.data.message, {
+            position: toast.POSITION.TOP_RIGHT
+          });
       // const updatedAssignments = await axios.get(`${API_URL}/course/students/`, { HEADERS });
       // setAssignments(updatedAssignments.data);
 
@@ -110,8 +116,9 @@ const AssignmentPage = () => {
 
   return (
     <div className="container mt-5">
+    <ToastContainer />
       <h2 className="mb-4">Assignment Page</h2>
-      
+
       <Form onSubmit={handleEnrollSubmit}>
         <Form.Group controlId="studentSelect">
           <Form.Label>Student:</Form.Label>
