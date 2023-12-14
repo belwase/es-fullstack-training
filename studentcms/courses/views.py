@@ -8,7 +8,7 @@ from courses.models import Course, StudentCourse
 
 def CourseView(request):
 	
-	courses = Course.objects.all()
+	courses = Course.objects.filter(is_deleted=False)
 	output = {
 		"courses": courses
 	}

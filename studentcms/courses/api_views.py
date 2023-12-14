@@ -14,10 +14,11 @@ def CourseAPIView(request, id=None):
 		print("doing get..")
 		if id is None:
 			courses = list(Course.objects.filter(
+				is_deleted=False
 				).values('id','name'))
 			output['data'] = courses
 		else:
-			course = Course.objects.get(id=id)
+			course = Course.objects.get(id=id, is_deleted=False)
 			output['data'] = {
 				'id': id,
 				'name': course.name
@@ -55,7 +56,7 @@ def CourseAPIView(request, id=None):
 	elif method == "PATCH":
 		print("doing patch..")
 		data = json.loads(request.body)
-		c = Course.objects.filter(id=id)
+		c = Course.objects.filter(id=id, is_deleted=False)
 		if not c:
 			output['messages'] = f'Course with id : {id} does not exists.'
 		else:
@@ -71,11 +72,13 @@ def CourseAPIView(request, id=None):
 
 	elif method == "DELETE":
 		print("doing delete..")
-		c = Course.objects.filter(id=id)
+		c = Course.objects.filter(id=id, is_deleted=False)
 		if not c:
 			output['messages'] = f'Course with id : {id} does not exists.'
 		else:
-			c.delete()
+			#c.delete()
+			c.is_deleted = True
+			c.save()
 			output['messages'] = 'Course deleted Successfully'
 
 	return JsonResponse(output)

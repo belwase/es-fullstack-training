@@ -4,8 +4,8 @@ from courses.models import Course, StudentCourse
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "instructor", "duration", "start_date", "custom_field1"]
-    exclude = ["name"]
+    list_display = ["id", "name", "instructor", "duration", "start_date", "is_deleted", "custom_field1"]
+    #exclude = ["name"]
 
     def custom_field1(self, obj):
     	return f"Field: {obj.id}"
