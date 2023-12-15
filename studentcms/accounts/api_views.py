@@ -10,11 +10,12 @@ import json
 @csrf_exempt
 def StudentAPIView(request, id=None):
 	output = {"data": None, "messages":[]}
-	# token = request.META['HTTP_AUTHORIZATION']
-	# decoded = decode(token)
-	# if decoded == False:
-	# 	output['messages'] = 'Unaurhotized'
-	# 	return JsonResponse(output)
+	print(request.META)
+	token = request.META['HTTP_AUTHORIZATION']
+	decoded = decode(token)
+	if decoded == False:
+		output['messages'] = 'Unaurhotized'
+		return JsonResponse(output)
 
 	
 	method = request.method

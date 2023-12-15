@@ -22,4 +22,3 @@ def decode(token):
 		return decoded
 	except:
 		return False
-	
