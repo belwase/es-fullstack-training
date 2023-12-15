@@ -11,6 +11,9 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class StudentCourseSerializer(serializers.ModelSerializer):
 
+    student = serializers.StringRelatedField(source='student.first_name')
+    course = serializers.StringRelatedField(source='course.name')
+
     class Meta:
         model = StudentCourse
         fields = ['id', 'student', 'course']

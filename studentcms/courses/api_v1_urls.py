@@ -6,8 +6,8 @@ from courses.viewsets import CourseViewSet, StudentCourseViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'', CourseViewSet)
 router.register(r'students', StudentCourseViewSet)
+router.register(r'', CourseViewSet)
 
 
 urlpatterns = [
