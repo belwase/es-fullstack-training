@@ -29,7 +29,10 @@ urlpatterns = [
     # For APIs
     path('api/student/', include('accounts.api_urls')),
     path('api/course/', include('courses.api_urls')),
+    path('api/token/', TokenView),
 
-    path('api/token/', TokenView)
+    # With RestFramework
+    path('api/v1/student/', include('accounts.api_v1_urls')),
+    path('api/v1/course/', include('courses.api_v1_urls')),
     
 ]
