@@ -5,10 +5,15 @@ from accounts.viewsets import ProfileViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'', ProfileViewSet)
+router.register(
+        r'',
+        ProfileViewSet,
+        basename='profiles'
+    )
 
 
 urlpatterns = [
     path('', include(router.urls)),
 ]
 
+# .as_view({'get': 'list'})
