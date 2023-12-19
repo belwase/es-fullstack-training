@@ -34,5 +34,5 @@ urlpatterns = [
     # With RestFramework
     path('api/v1/student/', include('accounts.api_v1_urls')),
     path('api/v1/course/', include('courses.api_v1_urls')),
-    
+    path('api/v1/', include('userauth.urls'))
 ]

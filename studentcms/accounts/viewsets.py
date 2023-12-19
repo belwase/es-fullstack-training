@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from accounts.models import Profile
 from accounts.serializers import ProfileSerializer, ProfileDetailSerializer, \
@@ -22,6 +24,9 @@ ProfileCreateSerializer, ProfilePatchSerializer
 
 
 class ProfileViewSet(viewsets.ViewSet):
+
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def list(self, request):
         queryset = Profile.objects.all()

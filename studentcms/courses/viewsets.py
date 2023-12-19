@@ -1,5 +1,8 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 from courses.models import Course, StudentCourse
 from courses.serializers import CourseSerializer, StudentCourseSerializer
@@ -8,6 +11,10 @@ from courses.serializers import CourseSerializer, StudentCourseSerializer
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
