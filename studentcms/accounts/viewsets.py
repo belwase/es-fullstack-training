@@ -11,6 +11,15 @@ ProfileCreateSerializer, ProfilePatchSerializer
 #     serializer_class = ProfileSerializer
 #     queryset = Profile.objects.filter(is_deleted=False)
 
+#     def get_serializer_class(self):
+#         serializer_mapping = {
+#             'POST': ProfileCreateSerializer,
+#             'PATCH': ProfilePatchSerializer,
+#             'GET': ProfileSerializer
+#         }
+#         method = self.request.method
+#         return serializer_mapping.get(method, ProfileSerializer)
+
 
 class ProfileViewSet(viewsets.ViewSet):
 
