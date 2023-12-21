@@ -5,6 +5,7 @@ from django.views.decorators.cache import cache_page
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
@@ -36,4 +37,8 @@ class CourseViewSet(viewsets.ModelViewSet):
 class StudentCourseViewSet(viewsets.ModelViewSet):
     serializer_class = StudentCourseSerializer
     queryset = StudentCourse.objects.all()
+
+    permission_classes = []
+    authentication_classes = []
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
