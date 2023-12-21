@@ -1,4 +1,8 @@
 from django.shortcuts import get_object_or_404
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -8,6 +12,8 @@ from accounts.models import Profile
 from accounts.serializers import ProfileSerializer, ProfileDetailSerializer, \
 ProfileCreateSerializer, ProfilePatchSerializer
 
+import json
+from django.conf import settings
 
 # class ProfileViewSet(viewsets.ModelViewSet):
 #     serializer_class = ProfileSerializer
@@ -28,12 +34,21 @@ class ProfileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    #@method_decorator(cache_page(60))
     def list(self, request):
-        queryset = Profile.objects.all()
-        serializer = ProfileSerializer(queryset, many=True)
-        profiles = serializer.data
-        for profile in profiles:
-            print(profile)
+
+        profiles = settings.REDIS_CLIENT.get('profiles')
+        print(profiles)
+        if profiles:
+            print("Returning from cache..")
+            profiles = json.loads(profiles)
+        else:
+            print("Getting students lists..")
+            queryset = Profile.objects.all()
+            serializer = ProfileSerializer(queryset, many=True)
+            profiles = serializer.data
+            settings.REDIS_CLIENT.set('profiles', json.dumps(profiles))
+
         return Response(profiles, status=status.HTTP_200_OK)
 
     def retrieve(self, request, pk):
