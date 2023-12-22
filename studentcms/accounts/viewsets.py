@@ -4,6 +4,9 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 from rest_framework import viewsets, status
+from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
+
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
@@ -12,8 +15,13 @@ from accounts.models import Profile
 from accounts.serializers import ProfileSerializer, ProfileDetailSerializer, \
 ProfileCreateSerializer, ProfilePatchSerializer
 
+from main.helper.hash import hash_file
+
+import os
 import json
+import time
 from django.conf import settings
+
 
 # class ProfileViewSet(viewsets.ModelViewSet):
 #     serializer_class = ProfileSerializer
@@ -86,3 +94,49 @@ class ProfileViewSet(viewsets.ViewSet):
         return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
+
+class FileUploadView(APIView):
+
+    parser_classes = [FileUploadParser]
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request, filename):
+        output = {"message": ""}
+        print("inside post")
+        file = request.data['file']
+        print(file)
+        print(vars(file))
+        print(file.name)
+
+        now_time = str(time.time()).replace(".", "")
+        path = settings.UPLOAD_PATH + "/" + now_time + file.name
+        temp_path = settings.UPLOAD_TEMP_PATH + "/" + now_time +  file.name
+
+        # Saving file to temp folder
+        with open(temp_path, 'wb') as fp:
+            fp.write(file.file.read())
+
+        temp_file_hash = hash_file(temp_path)
+        print(temp_file_hash)
+
+        file_hash = ''
+        try:
+            file_hash = hash_file(path)
+            print(file_hash)
+        except:
+            pass
+
+        if file_hash == temp_file_hash:
+            output['message'] = 'File with same content already uploaded'
+            return Response(output)
+
+
+        if os.path.isfile(path):
+            output['message'] = 'File already uploaded'
+
+        else:
+            os.rename(temp_path, path)
+
+            output['message'] = 'File uploaded'
+
+        return Response(output)

@@ -156,10 +156,10 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
     ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '20/day',
-        'user': '20/day'
-    },
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '20/day',
+    #     'user': '20/day'
+    # },
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
@@ -187,3 +187,5 @@ CACHES = {
     }
 }
 
+UPLOAD_PATH = 'uploads'
+UPLOAD_TEMP_PATH = 'temp_uploads'
