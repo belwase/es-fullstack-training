@@ -190,3 +190,13 @@ CACHES = {
 
 UPLOAD_PATH = 'uploads'
 UPLOAD_TEMP_PATH = 'temp_uploads'
+
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}

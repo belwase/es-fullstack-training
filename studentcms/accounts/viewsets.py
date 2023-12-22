@@ -3,6 +3,10 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+
+
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
@@ -42,6 +46,12 @@ class ProfileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter("email", openapi.IN_QUERY, type=openapi.TYPE_STRING),
+            openapi.Parameter("first_name", openapi.IN_QUERY, type=openapi.TYPE_STRING),
+        ]
+    )
     #@method_decorator(cache_page(60))
     def list(self, request):
 
@@ -65,6 +75,9 @@ class ProfileViewSet(viewsets.ViewSet):
         serializer = ProfileDetailSerializer(profile)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        request_body=ProfileCreateSerializer
+    )
     def create(self, request):
         data = request.data
         serializer = ProfileCreateSerializer(data=data)
