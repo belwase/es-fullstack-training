@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from accounts.models import Profile
@@ -43,8 +43,8 @@ from django.conf import settings
 
 class ProfileViewSet(viewsets.ViewSet):
 
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]# [IsAuthenticated]
+    authentication_classes = [] #[JWTAuthentication]
 
     @swagger_auto_schema(
         manual_parameters=[
