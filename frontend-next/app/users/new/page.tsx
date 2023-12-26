@@ -1,15 +1,18 @@
 "use client"
 
 import React from 'react';
+import { useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { UserRegister } from "@/types/user";
-import API_URL from "../config/api.ts"
+import API_URL from "../../config/api.ts"
 
 
-const UserPage = () => {
+const UserSignupPage = () => {
+
+  const toastId = useRef<any>(null);
 
   const {
     register,
@@ -20,27 +23,35 @@ const UserPage = () => {
   const onSubmit: SubmitHandler<UserRegister> = async(data: UserRegister) => {
       console.log(data);
       let headers = {}
-      var response = await axios.post(
-            `${API_URL}/register/`,
-            data,
-            {headers: headers}
-      )
+      try{
+        var response = await axios.post(
+              `${API_URL}/register/`,
+              data,
+              {headers: headers}
+        );
 
-      if(response.status == 201){
         toast.success("User added", {
-            position: toast.POSITION.TOP_RIGHT
-          });
-      }else{
-        toast.error(response.data, {
-            position: toast.POSITION.TOP_RIGHT
-          });
+                position: toast.POSITION.TOP_RIGHT
+              });
+      }catch(error){
+        console.log("here")
+        console.log(error)
+        alert(JSON.stringify(error.response.data))
+        toast("eioeoioei")
+        
+         toast.error(error, {
+              position: toast.POSITION.TOP_RIGHT
+            });
       }
-      console.log(response);
-      console.log(response.data);
+
+      
 
   }
 
   return (
+    <>
+    <ToastContainer />
+
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <h2 className="text-2xl font-bold mb-4">User Registration</h2>
 
@@ -109,7 +120,8 @@ const UserPage = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 
-export default UserPage;
+export default UserSignupPage;
