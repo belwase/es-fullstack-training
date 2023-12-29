@@ -8,7 +8,7 @@ const StudentPage = async() => {
   // var students = await res.json();
   // console.log(students)
 
-  let res = await fetch("https://jsonplaceholder.typicode.com/users")
+  let res = await fetch("https://jsonplaceholder.typicode.com/users", { cache: 'no-store' })
   var students = await res.json();
   console.log(students)
 
